@@ -8,7 +8,8 @@ from matplotlib import pyplot
 from GauntCalculator import freeFreeThermalSpectrum
 
 Ry_in_J = constants.value('Rydberg constant times hc in J')
-Hz_in_eV = constants.hbar/constants.e
+Hz_in_eV = constants.h/constants.e
+aB_in_cm = constants.value('Bohr radius') * 1.e2
 
 def main():
     """ The main routine."""
@@ -50,13 +51,13 @@ def main():
 
     energies_Ha = energies_eV/Ha_to_eV
 
-    ne_aB3 = args.ne * (0.529e-8)**3
+    ne_aB3 = args.ne * aB_in_cm**3
     ni_aB3 = ne_aB3 / args.Z
 
     print "* Calculating free-free thermal emisssion ..."
     spectrum = freeFreeThermalSpectrum(args.Z, args.T/Ha_to_eV, energies_Ha) * ne_aB3 * ni_aB3 # Ry/s/Hz/cm^3
     # Convert to W/eV/cm^3
-    spectrum = spectrum * Ry_in_J / Hz_in_eV
+    spectrum = spectrum * Ry_in_J / Hz_in_eV / aB_in_cm**3
     # Convert to eV/s/Hz
     #spectrum = spectrum * 13.6 / Hz_in_eV
     print "* done."
