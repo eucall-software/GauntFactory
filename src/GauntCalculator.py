@@ -103,16 +103,9 @@ def freeFreeEmissionSpectrum(Z, en, Ev):
         return 0
     v_initial = alpha * math.sqrt(2.*(Ev - en))
     g_ff = gauntFactorFF(Z, v_initial, en)
-    # W(nu) = 128.*math.pi**2/3./math.sqrt(3.) (ne*aB^3) * Z**2 * alpha**3 / math.sqrt(E0) * g_ff(nu, E0) Ry/unit time (Ry) / unit frequency (Ry) #
-    # Ry unit of time = 2pi/Ry
-    # Ry unit of frequency = Ry/2pi
-    # convert to Ha per unit energy (Ha)
-    # W(nu) = 128.*math.pi**2/3./math.sqrt(3.) (ne*aB^3) * Z**2 * alpha**3 / math.sqrt(E0/2) * g_ff(nu, E0/Ha)) Ha/2/unit time (Ha) / unit frequency (Ha) #
-    #       = 128.*math.pi**2/3./math.sqrt(3.) (ne*aB^3) * Z**2 * alpha**3 / math.sqrt(E0/2) * g_ff(nu, E0/Ha)) Ha/2/unit time (Ha) / unit energy (Ha) *2pi#
-    #       = 128.*math.pi**3/3./math.sqrt(3.) (ne*aB^3) * Z**2 * alpha**3 / math.sqrt(E0/2) * g_ff(nu, E0/Ha)) Ha / unit time (Ha) / unit energy (Ha)#
     #
-    return 128.*math.pi**3/3./math.sqrt(3.) * Z**2 * alpha**3 / math.sqrt(2.*Ev) * g_ff #
-    # cf. Karzas-Latter (1961) eq. (23). Converted from Ry to Ha (factor 1/2). To obtain energy per (Ry) unit time per unit energy interval, multiply by density in units of aB^-3 squared.
+    return 32.*math.pi/3./math.sqrt(3.) * Z**2 * alpha**3 / math.sqrt(2.*Ev) * g_ff # [Ry/s/Hz]
+    # cf. Karzas-Latter (1961) eq. (23). To obtain energy in (Ry) per s per time per unit energy interval, multiply by density in units of aB^-3 squared.
 
 def G(eta1, eta2, k1, k2, l):
     Gl = abs((k2 - k1) / (k2 + k1))**(1j*eta1 + 1j*eta2) * hyp2f1(l+1-1j*eta2, l+1-1j*eta1, 2.*l+2, -4.*k1*k2/(k1-k2)**2)
